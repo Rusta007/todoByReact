@@ -10,9 +10,11 @@ function TodoMain() {
   const [allTodo, setAllTodo] = useState([]);
 
   const handleChange = (e) => {
+    // console.log(data);
     setData({
       name: e.target.value,
       id: data.id || Date.now(),
+      checked: false,
     });
   };
 
@@ -27,11 +29,22 @@ function TodoMain() {
     setAllTodo(allTodo.filter((todo) => todo.id !== id));
   };
 
+  const handleCheck = (data) => {
+    setAllTodo(
+      allTodo.map((item) => {
+        if (item.id === data.id) {
+          return { ...item, checked: !item.checked };
+        }
+        return item;
+      })
+    );
+  };
+
   const handleButton = (e) => {
     e.preventDefault();
     // const existingTodoIndex = allTodo.findIndex((todo) => todo.id === data.id);
     const existingTodoIndex = allTodo.find((todo) => todo.id === data.id);
-    console.log(existingTodoIndex);
+    // console.log(existingTodoIndex);
     if (existingTodoIndex) {
       allTodo.forEach((arr) =>
         arr.id == data.id ? (arr.name = data.name) : ""
@@ -59,6 +72,7 @@ function TodoMain() {
         data={allTodo}
         handleUpdate={handleUpdate}
         handleDelete={handleDelete}
+        handleCheck={handleCheck}
       />
     </>
   );
